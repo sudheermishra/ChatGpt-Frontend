@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: "https://chatgpt-backend-rby3.onrender.com/",
   withCredentials: true,
 });
 
