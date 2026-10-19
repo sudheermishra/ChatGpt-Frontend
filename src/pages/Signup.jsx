@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema } from "../schemas/authSchema.js";
@@ -9,6 +9,7 @@ import { useChatStore } from "../store/useChatStore.js";
 
 export default function Signup() {
   const navigate = useNavigate();
+  const location = useLocation();
   const [serverError, setServerError] = useState("");
   const setUser = useAuthStore((state) => state.setUser);
   const clearChats = useChatStore((state) => state.clearChats);
@@ -36,7 +37,8 @@ export default function Signup() {
       const { name, age, email } = response.data;
       clearChats();
       setUser({ name, age, email });
-      navigate("/", { replace: true });
+      // Go back to the shared chat link if the user came from one.
+      navigate(location.state?.from || "/", { replace: true });
     } catch (error) {
       setServerError(
         error.response?.data?.message || "Signup failed. Please try again.",
@@ -136,6 +138,7 @@ export default function Signup() {
         Already have an account?{" "}
         <Link
           to="/login"
+          state={location.state}
           className="text-[#ececec] underline underline-offset-4">
           Log in
         </Link>

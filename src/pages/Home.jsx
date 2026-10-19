@@ -3,6 +3,7 @@ import { Navigate, useNavigate, useParams } from "react-router";
 import api from "../api.js";
 import ChatSidebar from "../components/ChatSidebar.jsx";
 import ChatRoom from "../components/ChatRoom.jsx";
+import ShareButton from "../components/ShareButton.jsx";
 import { useAuthStore } from "../store/useAuthStore.js";
 import { useChatStore } from "../store/useChatStore.js";
 
@@ -122,6 +123,7 @@ function Home() {
                 ? `Current usage: ${Number(usage.tokenUsed ?? 0).toLocaleString()} / ${Number(usage.tokenLimit ?? 0).toLocaleString()} tokens`
                 : usageError || "Loading usage..."}
             </p>
+            {chatId && <ShareButton key={chatId} chatId={chatId} />}
             <button
               type="button"
               onClick={handleLogout}
